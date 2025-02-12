@@ -1,13 +1,370 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  margin-left: 10vh;
+  margin-right: 12vh;
+  padding-top: 5%;
+  background: -webkit-linear-gradient(to right, #076585, #fff); 
+  background: linear-gradient(to right, #076585, #fff, #076585);}
+
+.card-container {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-left: -0.75vw;
+  justify-content: center;
+  gap: 20px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.logo-container-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.big-rectangle {
+  position: absolute;
+  top: 15vh;
+  left: -3vw;
+  width: 60vw;
+  height: 120vh;
+  background-color: #ffffff;
+  margin-right: 20%;
+  padding-top: 0.2vh;
+  padding-left: 3vw;
+  padding-right: 30%;
+  border-radius: 20px;
+}
+
+.list-box {
+  width: 100%;
+  margin-right: -20%;
+  padding-right: 0%;
+  padding-top: 10vh;
+
+}
+
+.list-box-delete {
+  width: 100%;
+  margin-right: -20%;
+  padding-right: 0%;
+  top: 100%;
+  padding-top: 65vh;
+
+}
+
+.container {
+  left: 25vw;
+  height: 100vh;
+  position: absolute; /* adjust the height of the container */
+}
+
+.side-rectangle {
+  position: fixed;
+  top: 0px; /* 20px from the top of the viewport */
+  left: 0px;
+  width: 20vw;
+  height: 100vh;
+  background-color: #ffffff;
+  
+  border-right-width: 1%;
+
+}
+
+.top-rectangle {
+  width: 100%;
+  height: 100px;
+  background-color: #ffffff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10%;
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+
+.logo-container-side {
+  display: flex;
+  align-items: center;
+  padding-top:3%;
+  padding-left: 0vw;
+  padding-right: -20%;
+}
+
+.logo {
+  width: 100px; /* adjust the width to your logo's size */
+  height: 50px; /* adjust the height to your logo's size */
+  margin-right: 10px;
+}
+.logo-text {
+  font-weight: bold;
+  margin-left: -3%;
+  font-family:'Gill Sans';
+  font-size: 5vh;
+  color: #1E6584;
+}
+
+.logo-text-side {
+  
+  font-weight: bold;
+  margin-left: -3%;
+  font-family:'Gill Sans';
+  font-size: 2.1vw;
+  color: #1E6584;
+}
+
+.loginBody {
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  margin-left: 10vh;
+  margin-right: 12vh;
+  padding-top: 0%;
+  padding-bottom: 0%;
+  background: linear-gradient(to center, #aba5a5, #59b9be, #48074b);
+}
+
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3b5065;
+  font-family:'Gill Sans';
+  margin-bottom: 0;
+}
+.tinytext {
+  font-size: 1rem;
+  color: #6F6E6D;
+  font-family:'Gill Sans';
+  margin-bottom: 0;
+}
+.webtitle {
+  font-family:'Gill Sans';
+  font-size: 50px;
+}
+.addUserForm {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 2rem;
+  padding-left: -10px;
+  padding-right: -20px;
+}
+
+.userForm {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 4.2rem;
+  padding-left: -10px;
+  padding-right: -20px;
+}
+
+.addUserRectangle {
+  width: 35vw;
+  height: 550px;
+  background-color: #ffffff;
+  margin-right: -2%;
+  margin-left: -2%;
+  padding-left: 5%;
+  padding-right: 5%;
+  border-radius: 20px;
+}
+
+.rectangle {
+  width: 35vw;
+  height: 102.5%;
+  background-color: #ffffff;
+  margin-right: -2%;
+  margin-left: -2%;
+  padding-left: 4%;
+  padding-right: 4%;
+  border-radius: 20px;
+}
+.topBar {
+  width: 95rem;
+  height: 70px;
+  background-color: #313539;
+  margin-top: -6.1%;
+}
+.topLogo {
+  display: flex;
+  justify-content: left;
+  padding-left: 3%;
+  padding-bottom: 0%;
+  padding-top: 1%;
+  font-family:'Gill Sans';
+  font-weight: bold;
+  color: #EFB65A;
+}
+.topUser {
+  display: flex;
+  justify-content: right;
+  padding-right: 5vh;
+  padding-top: 10px;
+}
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.taskButtons {
+  display: flex;
+  gap: 5px;
+}
+.dialog {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 1rem 1rem 1rem;
+}
+.flex {
+  display: flex;
+}
+.done {
+  text-decoration: line-through;
+}
+
+/* Container Styles */
+.add-to-cart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #a8e6cf, #dcedc1);
+  padding: 20px;
+}
+
+/* Cart Content Box */
+.cart-content {
+  width: 90%;
+  max-width: 600px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.webwiz-logo {
+  width: 60px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.webwiz-logo-text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Header */
+.cart-header {
+  margin-bottom: 20px;
+}
+
+/* Item Info */
+.item-info {
+  padding: 10px 0;
+}
+
+/* Quantity and Color Selectors */
+.quantity-selector, .color-selector {
+  margin-top: 10px;
+}
+
+.quantity-label, .color-label {
+  margin-bottom: 5px;
+}
+
+/* Pagination Control */
+.pagination-stack {
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.pagination-control .MuiPaginationItem-root {
+  font-size: 1rem;
+}
+
+/* Action Buttons */
+.action-button {
+  margin-top: 10px;
+}
+
+.cancel-button {
+  background-color: #ff5252;
+  color: white;
+  &:hover {
+    background-color: #ff1744;
+  }
+}
+
+.add-button {
+  background-color: #2196f3;
+  color: white;
+  margin-left: 5px;
+  &:hover {
+    background-color: #1976d2;
+  }
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .cart-content {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .webwiz-logo-text {
+    font-size: 1.5rem;
+  }
+
+  .pagination-control .MuiPaginationItem-root {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 601px) {
+  .webwiz-logo-text {
+    font-size: 2rem;
+  }
+}
+
+/* Pagination Item Styles */
+.pagination-item {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 5px;
+  background-color: transparent; /* Default background */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Selected Item Style */
+.selected-pagination-item {
+  background-color: inherit !important; /* Use the color from pageColors */
+  border: 2px solid black; /* Optional: highlight selected item */
 }

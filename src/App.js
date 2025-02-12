@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { AddUserForm } from './components/AddUserForm';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import React, { useState, useEffect } from "react";
+import { User } from "./components/User";
+import axios from "axios";
+import { API_URL } from "./utils";
 
-function App() {
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+export default function App() {
+  const [users, setUsers] = useState([]);
+
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get(API_URL);
+
+      setUsers(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+        <AddUserForm />
+        {users.map((user) => (
+        <User user={user} key={user.UserID} fetchUser={fetchUser} />
+        ))}
+    </ThemeProvider>
+  )
 }
-
-export default App;
