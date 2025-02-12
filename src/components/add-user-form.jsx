@@ -73,7 +73,7 @@ export const AddUserForm = () => {
       const result = await postResponse.json();
       setCurrentUser({
         email: newEmail,
-        Password: newUser,
+        password: newUser,
         firstName: newFirst,
         lastName: newLast,
         cart: [],

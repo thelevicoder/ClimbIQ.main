@@ -54,22 +54,16 @@ export const PageLayout = ({ user, setCurrentUser }) => {
     ...theme.mixins.toolbar,
   }));
 
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-  })(({ theme, open }) => ({
+  const AppBar = styled(MuiAppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    ...(open && {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
+    backgroundColor: '#193c59',
+    borderRadius: '10px',
+    padding: '10px 20px',
+    marginLeft: "50px",
   }));
 
   const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -117,139 +111,36 @@ export const PageLayout = ({ user, setCurrentUser }) => {
   return (
     <div>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: 'white' }}>
-        <Toolbar>
-          <IconButton
-            color="black"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ marginRight: 5, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon sx={{ color: 'gray' }} />
-          </IconButton>
+      <AppBar position="fixed" sx={{ backgroundColor: '#d5e1e3', marginTop: "10px", borderRadius: '10px' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between',  padding: '1px' }}>
           <Typography variant="h6" noWrap component="div">
             <div className='logo-container-side'>
-              <img src="thatpivc.png" alt="WebWiz Logo" className="logo" />
-              <span className="logo-text-side">WEBWIZ</span>
+              <img src="ClimbIQ_logo.png" alt="climbIQlogo" className="logo" />
+              <span className="logo-text-side">ClimbIQ</span>
             </div>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <IconButton
-            color="black"
-            aria-label="open cart"
-            onClick={() => navigate('/cart')}
-            sx={{ marginRight: 1 }}
-          >
-            <ShoppingCart sx={{ color: 'black', transform: 'scale(1.5)' }} />
-          </IconButton>
+          
+          <List sx={{ display: 'flex', flexDirection: 'row', gap: 2, padding: '0 10px' }}> 
+            <ListItem key="Edit Profile" disablePadding sx={{ display: 'flex', alignItems: 'center' }}>
+              <ListItemButton sx={{ minHeight: 48, px: 2.5, flexGrow: 1 }} onClick={() => navigate('/update-account', { state: user })}>
+                <ListItemIcon sx={{ justifyContent: 'center' }}>
+                  <ManageAccountsIcon sx={{ color: 'white' }} />
+                </ListItemIcon>
+                <ListItemText primary="Edit Profile" sx={{ color: 'white' }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key="Logout" disablePadding sx={{ display: 'flex', alignItems: 'center' }}>
+              <ListItemButton sx={{ minHeight: 48, px: 2.5, flexGrow: 1 }} onClick={() => navigate('/login')}>
+                <ListItemIcon sx={{ justifyContent: 'center' }}>
+                  <LogoutIcon sx={{ color: 'red' }} />
+                </ListItemIcon>
+                <ListItemText primary="Logout" sx={{ color: 'white' }} />
+              </ListItemButton>
+            </ListItem>
+          </List>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} paperProps={{ sx: { backgroundColor: '' } }}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem key="Shop" disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}
-              onClick={DirectToShop}
-            >
-              <ListItemIcon
-                sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}
-              >
-                <StoreIcon sx={{ color: 'cornflowerBlue' }} />
-              </ListItemIcon>
-              <ListItemText primary="Shop" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem key="Services" disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}
-            >
-              <ListItemIcon
-                sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}
-              >
-                <HomeRepairServiceIcon sx={{ color: 'cornflowerBlue' }} />
-              </ListItemIcon>
-              <ListItemText primary="Services" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem key="Recently Purchased" disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}
-            >
-              <ListItemIcon
-                sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}
-              >
-                <ShoppingBasketIcon sx={{ color: 'cornflowerBlue' }} />
-              </ListItemIcon>
-              <ListItemText primary="Recently Purchased" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem key="Edit Profile" disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}
-              onClick={DirectToUpdate}
-            >
-              <ListItemIcon
-                sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}
-              >
-                <ManageAccountsIcon sx={{ color: 'black' }} />
-              </ListItemIcon>
-              <ListItemText primary="Edit Profile" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem key="About Us" disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}
-              onClick={null}
-            >
-              <ListItemIcon
-                sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}
-              >
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary="About Us" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem key="Support" disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}
-            >
-              <ListItemIcon
-                sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}
-              >
-                <HelpIcon />
-              </ListItemIcon>
-              <ListItemText primary="Support" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <Divider />
-          <ListItem key="Logout" disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }}
-              onClick={DirectToLogout}
-            >
-              <ListItemIcon
-                sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}
-              >
-                <LogoutIcon sx={{ color: 'red' }} />
-              </ListItemIcon>
-              <ListItemText primary="Logout" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
     </div>
   );
 };

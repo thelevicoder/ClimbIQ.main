@@ -43,7 +43,7 @@ export const LoginForm = () => {
 
       setCurrentUser({
         email: result.user.email,
-        password: result.user.Password, // Ensure API returns correct casing
+        password: result.user.password, // Ensure API returns correct casing
         firstName: result.user.firstName,
         lastName: result.user.lastName,
       });
