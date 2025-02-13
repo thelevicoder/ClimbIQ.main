@@ -110,7 +110,7 @@ export const AddUserForm = () => {
           paddingBottom={2}
           fontSize='1.2vw'
         >
-          Create your ClimbIQ™ account
+          Create your ClimbIQ account
         </Typography>
         <div className='addUserForm'>
           <TextField
@@ -193,7 +193,7 @@ export const AddUserForm = () => {
           </LoadingButton>
         </div>
         <div className='tinytext'>
-          By creating an account, you accept all of the ClimbIQ™ terms and conditions
+          By creating an account, you accept all of the ClimbIQ terms and conditions
         </div>
         <div className='tinytext'>
           Already have an account? Login <Link to='/login'>here!</Link>

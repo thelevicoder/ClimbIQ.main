@@ -171,7 +171,6 @@ export const LoginForm = () => {
             disabled={!email.length || !password.length}
             variant="contained"
             onClick={findUser}
-            color="error"
             sx={{
               paddingTop: "2",
               borderRadius: 5,
