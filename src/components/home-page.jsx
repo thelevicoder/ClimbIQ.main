@@ -9,13 +9,13 @@ import { UserContext } from '../Contexts/UserContext';
 export const HomepageForm = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (currentUser.email == null) {
-      console.log(currentUser);
-      navigate('/login');
-    }
+  // useEffect(() => {
+  //   if (currentUser.email == null) {
+  //     console.log(currentUser);
+  //     navigate('/login');
+  //   }
   
-  }, [currentUser]);
+  // }, [currentUser]);
   
   console.log('user on homepage:',currentUser)
   if (!currentUser) {
@@ -29,7 +29,7 @@ export const HomepageForm = () => {
 
   if (currentUser) {
     return (
-      <div className='container'>
+      <div className='homepageBackground'>
         
       <PageLayout
       user={currentUser}
