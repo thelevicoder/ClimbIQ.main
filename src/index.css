@@ -97,12 +97,27 @@ body {
   padding-right: 2vw;
 }
 
+.logo-container-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0%;
+  padding-left: 0vw;
+  padding-right: 2vw;
+}
+
 .logo-container-side {
   display: flex;
   align-items: center;
   padding-top: 3%;
   padding-left: 0vw;
   padding-right: -20%;
+}
+
+.homepageBackground {
+  background-color: #FEFAE0;
+  width: 100vw;
+  height: 100vh;
 }
 
 .logo {
@@ -136,8 +151,7 @@ body {
   padding-top: 0%;
   padding-bottom: 0%;
   background: linear-gradient(to center, #aa7676, #373939, #373637);
-  overflow-y: hidden;
-  overflow: hidden;
+  overflow-x: hidden;
   right: 0;
   top: 0;
 }
@@ -178,14 +192,12 @@ h1 {
 }
 
 .addUserRectangle {
-  width: 35vw;
-  height: 550px;
-  background-color: #ffffff;
-  margin-right: -2%;
-  margin-left: -2%;
-  padding-left: 5%;
-  padding-right: 5%;
-  border-radius: 20px;
+  background-color: #FEFAE0;
+  padding: 100px;
+  border-radius: 0;;
+  width: 50%;
+  margin-left: auto;
+  height: 100vh;
 }
 
 .loginBody {
@@ -209,6 +221,9 @@ h1 {
   .rectangle {
     width: 100%;
   }
+  .addUserRectangle {
+    width: 100%;
+  }
 }
 /* between 900 and 700 */
 @media (min-device-width: 700px) and (max-device-width: 900px
@@ -219,7 +234,11 @@ h1 {
   .rectangle {
     padding: 5%;
   }
+  .addUserRectangle {
+    padding: 5%;
+  }
 }
+
 
 @media (max-device-width: 440px) {
   .logo {
@@ -228,12 +247,26 @@ h1 {
   .rectangle {
     padding: 5%;
   }
+  .addUserRectangle {
+    padding: 5%;
+  }
 }
 
 
 
 .backgroundimage {
   background-image: url("../public/login-photo3.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 70%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.backgroundimageCreateAccount {
+  background-image: url("../public/north-sister.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;
