@@ -7,7 +7,7 @@ import { UserContext } from '../Contexts/UserContext';
 import { ImageUploader } from '../sub-components/ImageUploader';
 import { ImageGallery } from '../sub-components/ImageGallery';
 
-export const HomepageForm = () => {
+export const ImageHistoryForm = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,11 +23,6 @@ export const HomepageForm = () => {
     return
   }
 
-  const pressPrints = () => {
-    navigate('/print')
-
-  }
-
   if (currentUser) {
     return (
       <div className='homepageBackground'>
@@ -36,8 +31,7 @@ export const HomepageForm = () => {
       user={currentUser}
       setUser={setCurrentUser}
       />
-      
-      <ImageUploader userId={currentUser.email} />
+        <ImageGallery userId={currentUser.email} />
       </div>
     )
   } else {    

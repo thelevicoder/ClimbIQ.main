@@ -24,6 +24,8 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import InfoIcon from "@mui/icons-material/Info";
+import HistoryIcon from '@mui/icons-material/History';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import HelpIcon from "@mui/icons-material/Help";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ShoppingCart from "@mui/icons-material/ShoppingCart";
@@ -153,6 +155,36 @@ export const PageLayout = ({ user, setCurrentUser }) => {
               padding: "0 10px",
             }}
           >
+            <ListItem
+              key="Image Upload"
+              disablePadding
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <ListItemButton
+                sx={{ minHeight: 48, px: 2.5, flexGrow: 1 }}
+                onClick={() => navigate("/upload-image", { state: user })}
+              >
+                <ListItemIcon sx={{ justifyContent: "center" }}>
+                  <UploadFileIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Upload Image" sx={{ color: "white" }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              key="Image History"
+              disablePadding
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <ListItemButton
+                sx={{ minHeight: 48, px: 2.5, flexGrow: 1 }}
+                onClick={() => navigate("/image-history", { state: user })}
+              >
+                <ListItemIcon sx={{ justifyContent: "center" }}>
+                  <HistoryIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Image History" sx={{ color: "white" }} />
+              </ListItemButton>
+            </ListItem>
             <ListItem
               key="Edit Profile"
               disablePadding

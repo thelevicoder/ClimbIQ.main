@@ -7,7 +7,7 @@ import { UserContext } from '../Contexts/UserContext';
 import { ImageUploader } from '../sub-components/ImageUploader';
 import { ImageGallery } from '../sub-components/ImageGallery';
 
-export const HomepageForm = () => {
+export const ImageUploadForm = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {

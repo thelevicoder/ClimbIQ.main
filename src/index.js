@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AddUserForm } from './components/add-user-form';
 import CssBaseline from '@mui/material/CssBaseline';
 import { HomepageForm } from './components/home-page'
+import { ImageHistoryForm } from './components/Image-history-page';
+import { ImageUploadForm } from './components/image-upload-page';
 import { LoginForm } from './components/login';
 import { UserProvider } from './Contexts/UserContext';
 
@@ -23,8 +25,10 @@ root.render(
         <CssBaseline />
         <BrowserRouter>
           <Routes>
+            <Route path="/upload-image" element={<ImageUploadForm />} />
             <Route path="/create-account" element={<AddUserForm />} />
             <Route path="/" element={<HomepageForm/>} />
+            <Route path="/image-history" element={<ImageHistoryForm/>} />
             <Route path="/login" element={<LoginForm/>} />
             {/* <Route path="/delete-account" element={<DeleteUserForm />}/>
             <Route path="/update-account" element={<UpdateUserForm />}/>
