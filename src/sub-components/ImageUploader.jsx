@@ -1,95 +1,196 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export const ImageUploader = ({ userId }) => {
+export const ImageUploader = ({ userEmail }) => {
+  // Log when the component renders
+  console.log("ImageUploader - Component is rendering");
+  console.log("ImageUploader - userEmail prop:", userEmail);
+
   const [selectedFile, setSelectedFile] = useState(null);
   const [tags, setTags] = useState('');
+  const [wallAngle, setWallAngle] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
+  const [vGrade, setVGrade] = useState('');
+  const [routeImageUrl, setRouteImageUrl] = useState('');
+  const [requestId, setRequestId] = useState('');
 
-  const apiUrl = 'https://g6cwxw4zrh.execute-api.us-east-1.amazonaws.com/prod/upload';
+  const apiBaseUrl = 'https://g6cwxw4zrh.execute-api.us-east-1.amazonaws.com/prod';
 
-  
+  // Log the state of the form
+  console.log("ImageUploader - Form state:", {
+    selectedFile: !!selectedFile,
+    wallAngle,
+    loading,
+    error: !!error,
+  });
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
       setMessage('');
       setError(null);
+      setVGrade('');
+      setRouteImageUrl('');
+      setRequestId('');
+      console.log("ImageUploader - File selected:", file.name);
     }
   };
 
-
   const handleTagsChange = (event) => {
     setTags(event.target.value);
+    console.log("ImageUploader - Tags updated:", event.target.value);
   };
 
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = reader.result.split(',')[1];
-        resolve(base64String);
-      };
-      reader.onerror = (error) => reject(error);
-    });
+  const handleWallAngleChange = (event) => {
+    const value = event.target.value;
+    if (value < 0 || value > 90) {
+      setError('Wall angle must be between 0 and 90 degrees.');
+      setWallAngle(value);
+    } else {
+      setError(null);
+      setWallAngle(value);
+    }
+    console.log("ImageUploader - Wall angle updated:", value);
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log("ImageUploader - handleSubmit called");
+    console.log("handleSubmit - userEmail:", userEmail);
+
     if (!selectedFile) {
       setError('Please select an image to upload.');
+      console.log("ImageUploader - Error: No file selected");
       return;
     }
 
-    if (!userId) {
-      setError('User ID is required. Please log in.');
+    if (!wallAngle) {
+      setError('Please enter the estimated wall angle.');
+      console.log("ImageUploader - Error: Wall angle missing");
+      return;
+    }
+
+    if (!userEmail) {
+      setError('User email is missing. Please log in.');
+      console.log("ImageUploader - Error: userEmail missing");
+      return;
+    }
+
+    if (error) {
+      console.log("ImageUploader - Error exists, cannot submit:", error);
       return;
     }
 
     setLoading(true);
     setMessage('');
     setError(null);
+    setVGrade('');
+    setRouteImageUrl('');
+    setRequestId('');
 
     try {
-
-      const imageBase64 = await convertToBase64(selectedFile);
-
-
+      // Step 1: Get pre-signed URL for S3 upload
       const tagsArray = tags
         .split(',')
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0);
+      if (!tagsArray.includes('climb_iq')) {
+        tagsArray.push('climb_iq');
+      }
 
-     
-      const requestBody = {
-        userId: userId,
-        imageBase64: imageBase64,
-        tags: tagsArray.length > 0 ? tagsArray : ['default'],
-      };
+      const uploadUrl = `${apiBaseUrl}/upload?userId=${encodeURIComponent(userEmail)}`;
+      console.log("ImageUploader - Sending request to:", uploadUrl);
 
-      const response = await fetch(apiUrl, {
+      const uploadResponse = await fetch(uploadUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify({
+          filename: selectedFile.name,
+          wallAngle: parseFloat(wallAngle),
+          tags: tagsArray.length > 0 ? tagsArray : ['default'],
+        }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to upload image');
+      if (!uploadResponse.ok) {
+        const errorData = await uploadResponse.json();
+        throw new Error(errorData.message || 'Failed to get upload URL');
       }
 
-      const data = await response.json();
-      setMessage(`Image uploaded successfully! Image ID: ${data.imageId}`);
-      setSelectedFile(null);
-      setTags('');
+      const uploadData = await uploadResponse.json();
+      const { uploadURL, s3Key, imageId } = uploadData;
+      console.log("ImageUploader - Upload response:", { uploadURL, s3Key, imageId });
+
+      // Step 2: Upload the image to S3
+      await fetch(uploadURL, {
+        method: 'PUT',
+        body: selectedFile,
+        headers: {
+          'Content-Type': 'image/jpeg',
+        },
+      });
+      console.log("ImageUploader - Image uploaded to S3");
+
+      // Step 3: Trigger the processing pipeline
+      const processResponse = await fetch(`${apiBaseUrl}/process`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          s3Key,
+          wallAngle: parseFloat(wallAngle),
+          userId: userEmail,
+          tags: tagsArray,
+        }),
+      });
+
+      if (!processResponse.ok) {
+        const errorData = await processResponse.json();
+        throw new Error(errorData.message || 'Failed to start processing');
+      }
+
+      const processData = await processResponse.json();
+      setRequestId(imageId);
+      setMessage('Image uploaded successfully! Processing...');
+      console.log("ImageUploader - Processing started, requestId:", imageId);
+
+      // Step 4: Poll for results
+      let result = null;
+      let attempts = 0;
+      const maxAttempts = 12;
+
+      while (!result && attempts < maxAttempts) {
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        attempts++;
+
+        const statusResponse = await fetch(`${apiBaseUrl}/status/${imageId}?userId=${encodeURIComponent(userEmail)}`);
+        if (!statusResponse.ok) {
+          throw new Error('Failed to check status');
+        }
+
+        const statusData = await statusResponse.json();
+        console.log("ImageUploader - Status check:", statusData);
+        if (statusData.status === 'completed') {
+          result = statusData;
+          setVGrade(result.vGrade);
+          setRouteImageUrl(result.routeImageUrl);
+          setMessage(`Climb graded successfully! V-Scale Grade: ${result.vGrade}`);
+        } else if (statusData.status === 'failed') {
+          throw new Error(statusData.error || 'Processing failed');
+        }
+      }
+
+      if (!result) {
+        throw new Error('Processing timed out. Please try again later.');
+      }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'An error occurred while processing the image.');
+      console.log("ImageUploader - Error during submission:", err.message);
     } finally {
       setLoading(false);
     }
@@ -97,7 +198,7 @@ export const ImageUploader = ({ userId }) => {
 
   return (
     <div style={{ margin: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-      <h2>Upload an Image</h2>
+      <h2>Upload a Climbing Wall Image</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '15px' }}>
           <label htmlFor="fileInput">Select Image: </label>
@@ -114,6 +215,23 @@ export const ImageUploader = ({ userId }) => {
         </div>
 
         <div style={{ marginBottom: '15px' }}>
+          <label htmlFor="wallAngleInput">Estimated Wall Angle (degrees): </label>
+          <input
+            type="number"
+            id="wallAngleInput"
+            value={wallAngle}
+            onChange={handleWallAngleChange}
+            placeholder="e.g., 30"
+            disabled={loading}
+            style={{ width: '100%', padding: '5px' }}
+            min="0"
+            max="90"
+            step="1"
+            required
+          />
+        </div>
+
+        <div style={{ marginBottom: '15px' }}>
           <label htmlFor="tagsInput">Tags (comma-separated, optional): </label>
           <input
             type="text"
@@ -124,16 +242,44 @@ export const ImageUploader = ({ userId }) => {
             disabled={loading}
             style={{ width: '100%', padding: '5px' }}
           />
+          <p style={{ fontSize: '12px', color: '#666' }}>
+            Note: The "climb_iq" tag will be automatically added to process this image as a climbing wall.
+          </p>
         </div>
 
-        <button type="submit" disabled={loading || !selectedFile}>
-          {loading ? 'Uploading...' : 'Upload Image'}
+        <button type="submit" disabled={loading || !selectedFile || !wallAngle || !!error}>
+          {loading ? 'Processing...' : 'Grade Climb'}
         </button>
       </form>
 
       {message && <p style={{ color: 'green', marginTop: '10px' }}>{message}</p>}
       {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+
+      {(vGrade || routeImageUrl) && (
+        <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
+          <h3>Result</h3>
+          {vGrade && (
+            <p>
+              <strong>V-Scale Grade:</strong> {vGrade}
+            </p>
+          )}
+          {routeImageUrl && (
+            <div>
+              <p><strong>Route Visualization:</strong></p>
+              <img
+                src={routeImageUrl}
+                alt="Climb Route"
+                style={{ maxWidth: '100%', height: 'auto', marginTop: '10px' }}
+              />
+            </div>
+          )}
+          {tags && (
+            <p>
+              <strong>Tags:</strong> {tags.split(',').map(tag => tag.trim()).join(', ')}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
-
