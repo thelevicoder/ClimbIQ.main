@@ -126,7 +126,7 @@ export const PageLayout = ({ user, setCurrentUser }) => {
     <div>
       <CssBaseline />
       <AppBar
-        position="fixed"
+        // position="fixed"
         sx={{
           backgroundColor: "#095043b0",
           marginTop: "0px",

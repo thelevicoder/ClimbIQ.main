@@ -7,18 +7,17 @@ import { UserContext } from '../Contexts/UserContext';
 import { ImageUploader } from '../sub-components/ImageUploader';
 import { ImageGallery } from '../sub-components/ImageGallery';
 
-export const ImageUploadForm = () => {
-  const { setCurrentUser, currentUser } = useContext(UserContext);
+export const ImageUploadForm = async () => {
+  const { setCurrentUser, currentUser } = await useContext(UserContext);
   const navigate = useNavigate();
+console.log('user on homepage:', currentUser)
   useEffect(() => {
-    if (currentUser.email == null) {
-      console.log(currentUser);
+    if (currentUser.email == null || undefined) {
       navigate('/login');
     }
   
   }, [currentUser]);
   
-  console.log('user on homepage:',currentUser)
   if (!currentUser) {
     return
   }
@@ -37,7 +36,7 @@ export const ImageUploadForm = () => {
       setUser={setCurrentUser}
       />
       
-      <ImageUploader userId={currentUser.email} />
+      <ImageUploader userId={JSON.stringify(currentUser)} />
       </div>
     )
   } else {    
