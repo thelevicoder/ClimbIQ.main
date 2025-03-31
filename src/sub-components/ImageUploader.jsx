@@ -302,7 +302,7 @@ export const ImageUploader = ({ userEmail }) => {
             onChange={handleTagsChange}
             placeholder="e.g., nature, climbing"
             disabled={loading}
-            style={{ width: "100%", padding: "5px" }}
+            style={{ width: "100%", padding: "0px" }}
           />
           <p style={{ fontSize: "12px", color: "#666" }}>
             Note: The "climb_iq" tag will be automatically added to process this
