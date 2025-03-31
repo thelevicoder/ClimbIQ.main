@@ -10,15 +10,15 @@ import { ImageGallery } from '../sub-components/ImageGallery';
 export const HomepageForm = () => {
   const { setCurrentUser, currentUser } = useContext(UserContext);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (currentUser.email == null) {
-      console.log(currentUser);
-      navigate('/login');
-    }
+  // useEffect(() => {
+  //   if (currentUser.email == null) {
+  //     console.log(currentUser);
+  //     navigate('/login');
+  //   }
   
-  }, [currentUser]);
+  // }, [currentUser]);
   
-  console.log('user on homepage:',currentUser)
+  console.log('user on homepage:', currentUser.email)
   if (!currentUser) {
     return
   }
@@ -28,7 +28,7 @@ export const HomepageForm = () => {
 
   }
 
-  if (currentUser) {
+  if (currentUser != null || undefined) {
     return (
       <div className='homepageBackground'>
         
@@ -36,8 +36,9 @@ export const HomepageForm = () => {
       user={currentUser}
       setUser={setCurrentUser}
       />
-      
-      <ImageUploader userId={currentUser.email} />
+      {currentUser != null && (
+        <ImageUploader userEmail={currentUser.email} />
+      )}
       </div>
     )
   } else {    
