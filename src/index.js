@@ -27,7 +27,7 @@ root.render(
           <Routes>
             <Route path="/upload-image" element={<ImageUploadForm />} />
             <Route path="/create-account" element={<AddUserForm />} />
-            <Route path="/" element={<HomepageForm/>} />
+            <Route path="/" element={<ImageUploadForm/>} />
             <Route path="/image-history" element={<ImageHistoryForm/>} />
             <Route path="/login" element={<LoginForm/>} />
             {/* <Route path="/delete-account" element={<DeleteUserForm />}/>
