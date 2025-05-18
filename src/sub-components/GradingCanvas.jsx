@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Box, Typography, Button, Paper, Chip } from "@mui/material";
+import { Box, Typography, Button, Paper } from "@mui/material";
 import { API_URL } from '../utils';
 
 export const GradingCanvas = ({
@@ -27,12 +27,21 @@ export const GradingCanvas = ({
   const [startHold, setStartHold] = useState(null);
   const [endHold, setEndHold] = useState(null);
 
+  // --- Only ONE image-loading useEffect! ---
   useEffect(() => {
-    if (!imagePreviewUrl && !image) return;
+    let imgSrc = null;
+    if (step === 2 && contourPreview) {
+      imgSrc = contourPreview;
+    } else if (imagePreviewUrl) {
+      imgSrc = imagePreviewUrl;
+    } else if (image) {
+      imgSrc = `data:image/jpeg;base64,${image}`;
+    }
+    if (!imgSrc) return;
     const newImg = new window.Image();
     newImg.onload = () => setImg(newImg);
-    newImg.src = imagePreviewUrl ? imagePreviewUrl : `data:image/jpeg;base64,${image}`;
-  }, [image, imagePreviewUrl]);
+    newImg.src = imgSrc;
+  }, [step, image, imagePreviewUrl, contourPreview]);
 
   useEffect(() => {
     if (!img || !canvasRef.current) return;
@@ -210,7 +219,6 @@ export const GradingCanvas = ({
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-    
       p={2}
       mt={3}
       sx={{
