@@ -115,25 +115,25 @@ export const ImageUploadForm = () => {
       <PageLayout user={currentUser} setUser={setCurrentUser} />
 
       <Box display="flex" flexDirection="column" alignItems="center" mt={8} className='homepageBackground'>
-        <Card sx={{
+        {/* <Card sx={{
           p: 3,
           maxWidth: 600,
           width: "100%",
           borderRadius: 6,
           boxShadow: "0 6px 30px 6px #b3e2ff44",
           background: "#FEFAE0"
-        }}>
+        }}> */}
           <CardContent>
             <Typography variant="h4" fontWeight={800} align="center" gutterBottom style={{
               letterSpacing: ".02em", color: "#003d59"
             }}>
-              🧗 Wall Route Grader
+              🧗 CLIMB IQ: Route Grader
             </Typography>
             <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
               <Chip
                 label={`Step ${step + 1}: ${stepInstructions[step]}`}
                 color="primary"
-                style={{ fontWeight: 600, fontSize: 18, background: "#8fd8fc", color: "#0c243a", borderRadius: "18px", padding: "8px 20px" }}
+                style={{ fontWeight: 600, fontSize: 18, background: "#528779", color: "#FEFAE0", borderRadius: "18px", padding: "8px 20px" }}
               />
             </Box>
 
@@ -187,7 +187,7 @@ export const ImageUploadForm = () => {
 
             {step === 2 && gradingData && (
               <Paper elevation={2} sx={{
-                p: 2, mt: 2, borderRadius: 4, background: "#eafff8"
+                p: 2, mt: 2, borderRadius: 4, background: "#528779"
               }}>
                 <Typography variant="h6" fontWeight={600} gutterBottom>
                   Review your selections:
@@ -197,7 +197,7 @@ export const ImageUploadForm = () => {
                   <li><b>End Hold:</b> {gradingData.end_hold}</li>
                   <li>
                     <b>Hold Points:</b> {gradingData.hold_points.map((p, i) =>
-                      <Chip key={i} label={`(${p.x},${p.y})`} style={{ margin: "0 4px", background: "#bdf9ee", color: "#205150" }} />
+                      <Chip key={i} label={`(${p.x},${p.y})`} style={{ margin: "0 4px", background: "#003d59", color: "#FEFAE0" }} />
                     )}
                   </li>
                 </ul>
@@ -207,10 +207,11 @@ export const ImageUploadForm = () => {
                   size="large"
                   style={{
                     borderRadius: 18,
-                    background: "linear-gradient(90deg,#47eabb,#45bdf7)",
+                    background: "#528779",
                     fontWeight: 700,
                     fontSize: 17,
                     marginBottom: 12,
+                    color: "#FEFAE0",
                   }}
                 >
                   Submit for Grading
@@ -218,32 +219,32 @@ export const ImageUploadForm = () => {
               </Paper>
             )}
 
-            {contourPreview && (
-              <Paper elevation={2} sx={{
-                mt: 2,
-                mb: 2,
-                borderRadius: 4,
-                textAlign: "center",
-                background: "#f8fcff"
-              }}>
-                <img
-                  src={contourPreview}
-                  alt="Detected contours preview"
-                  style={{
-                    maxWidth: 400,
-                    border: "3px solid #73e0f5",
-                    borderRadius: 20,
-                    margin: 12,
-                    boxShadow: "0 2px 14px 0 #baeaff"
-                  }}
-                />
-                <Typography variant="caption" sx={{ color: "#479ecb", fontWeight: 600 }}>
-                  Preview of detected contours. Confirm before submitting.
-                </Typography>
-              </Paper>
-            )}
+              {/* // {contourPreview && (
+              // <Paper elevation={2} sx={{
+              //   mt: 2,
+              //   mb: 2,
+              //   borderRadius: 4,
+              //   textAlign: "center",
+              //   background: "#f8fcff"
+              // }}>
+              //   <img
+              //     src={contourPreview}
+              //     alt="Detected contours preview"
+              //     style={{
+              //       maxWidth: 400,
+              //       border: "3px solid #73e0f5",
+              //       borderRadius: 20,
+              //       margin: 12,
+              //       boxShadow: "0 2px 14px 0 #baeaff"
+              //     }}
+              //   />
+              //   <Typography variant="caption" sx={{ color: "#479ecb", fontWeight: 600 }}>
+              //     Preview of detected contours. Confirm before submitting.
+              //   </Typography>
+              // </Paper>
+            // )}
 
-            <Box sx={{ mt: 2, mb: 0 }}>
+            {/* <Box sx={{ mt: 2, mb: 0 }}>
               {status && (
                 <Box display="flex" alignItems="center" gap={1}>
                   {status.includes("Running") && <CircularProgress size={22} color="primary" />}
@@ -252,7 +253,7 @@ export const ImageUploadForm = () => {
                   </Typography>
                 </Box>
               )}
-            </Box>
+            </Box> */}
 
             {finalGrade && (
               <Paper elevation={3} sx={{
@@ -268,7 +269,7 @@ export const ImageUploadForm = () => {
               </Paper>
             )}
           </CardContent>
-        </Card>
+        {/* </Card> */}
       </Box>
     </div>
   );

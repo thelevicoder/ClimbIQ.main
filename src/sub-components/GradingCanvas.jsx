@@ -254,17 +254,17 @@ export const GradingCanvas = ({
         <Box sx={{ mt: 2, mb: 1, textAlign: "center" }}>
           <Button onClick={handleReset}
                   variant="outlined"
-                  color="secondary"
+                  color="white"
                   style={{
                     borderRadius: 16,
                     fontWeight: 700,
                     fontSize: 16,
-                    background: "#fafafc"
+                    background: "maroon"
                   }}>
             Reset
           </Button>
           {step === 2 && contourPreview && (
-            <Button style={{ marginLeft: 20, borderRadius: 16, fontWeight: 700, fontSize: 16, background: "#daf7ea" }}
+            <Button style={{ marginLeft: 20, borderRadius: 16, fontWeight: 700, fontSize: 16, background: "#193c59" }}
                     onClick={handleConfirmPreview}
                     variant="contained"
                     color="success"
@@ -273,10 +273,10 @@ export const GradingCanvas = ({
             </Button>
           )}
           {step === 5 && (
-            <Button style={{ marginLeft: 20, borderRadius: 16, fontWeight: 700, fontSize: 16, background: "#f3f7fd" }}
+            <Button style={{ marginLeft: 20, borderRadius: 16, fontWeight: 700, fontSize: 16, background: "#193c59" }}
                     onClick={handleReview}
                     variant="contained"
-                    color="primary"
+                    color="white"
             >
               Review &amp; Confirm
             </Button>
