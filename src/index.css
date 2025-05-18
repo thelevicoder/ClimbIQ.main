@@ -253,7 +253,7 @@ h1 {
 }
 
 .backgroundimage {
-  background-image: url("/public/login-photo3.jpg");
+  background-image: url("../public/login-photo3.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -264,7 +264,7 @@ h1 {
 }
 
 .backgroundimageCreateAccount {
-  background-image: url("/public/north-sister.jpg");
+  background-image: url("../public/north-sister.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;
