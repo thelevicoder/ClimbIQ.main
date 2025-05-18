@@ -1,6 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { Typography } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { Typography, Button } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
 import { API_URL } from "../utils";
@@ -164,7 +163,7 @@ export const LoginForm = () => {
               name="password"
             />
           </div>
-          <LoadingButton
+          <Button
             fullWidth
             loading={isLoading}
             size="big"
@@ -181,7 +180,7 @@ export const LoginForm = () => {
             }}
           >
             SIGN IN
-          </LoadingButton>
+          </Button>
           <div className="tinytext">
             <br />
             By logging into your ClimbIQ account, you accept all of the ClimbIQ
