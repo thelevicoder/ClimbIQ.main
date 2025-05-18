@@ -150,7 +150,7 @@ body {
   margin-right: 0vh;
   padding-top: 0%;
   padding-bottom: 0%;
-  background: linear-gradient(to center, #aa7676, #373939, #373637);
+  background: linear-gradient(120deg, #aa7676 0%, #373939 80%);
   overflow-x: hidden;
   right: 0;
   top: 0;
@@ -252,10 +252,8 @@ h1 {
   }
 }
 
-
-
 .backgroundimage {
-  background-image: url("../public/login-photo3.jpg");
+  background-image: url("/public/login-photo3.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -266,7 +264,7 @@ h1 {
 }
 
 .backgroundimageCreateAccount {
-  background-image: url("../public/north-sister.jpg");
+  background-image: url("/public/north-sister.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;
