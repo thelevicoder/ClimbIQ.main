@@ -114,7 +114,7 @@ export const ImageUploadForm = () => {
     }}>
       <PageLayout user={currentUser} setUser={setCurrentUser} />
 
-      <Box display="flex" flexDirection="column" alignItems="center" mt={8} className='homepageBackground'>
+      <Box paddingTop='6rem' display="flex" flexDirection="column" alignItems="center" mt={8} className='homepageBackground'>
         {/* <Card sx={{
           p: 3,
           maxWidth: 600,
