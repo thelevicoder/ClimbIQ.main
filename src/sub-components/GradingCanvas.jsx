@@ -167,22 +167,39 @@ export const GradingCanvas = ({
     setStep(3);
   };
 
-  const handleReview = () => {
-    if (
-      leftLine === null ||
-      rightLine === null ||
-      startHold === null ||
-      endHold === null
-    ) {
-      alert("Please complete all selections first.");
-      return;
-    }
-    const images = {};
-    if (contourMetadata) {
-      Object.keys(contourMetadata).forEach((filename) => {
-        images[filename] = image;
-      });
-    }
+  const handleReview = async () => {
+  if (
+    leftLine === null ||
+    rightLine === null ||
+    startHold === null ||
+    endHold === null
+  ) {
+    alert("Please complete all selections first.");
+    return;
+  }
+  // Prepare images object with base64 crops of each hold
+  const images = {};
+
+  // Create an <img> to draw from (make sure it's loaded)
+  const imgElement = new window.Image();
+  imgElement.src = imagePreviewUrl || `data:image/jpeg;base64,${image}`;
+  imgElement.onload = () => {
+    Object.entries(contourMetadata || {}).forEach(([filename, meta]) => {
+      const [x_min, y_min] = meta.bounding_box[0];
+      const [x_max, y_max] = meta.bounding_box[1];
+      const width = x_max - x_min;
+      const height = y_max - y_min;
+      // Crop this hold from the main image
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(imgElement, x_min, y_min, width, height, 0, 0, width, height);
+      // Export base64 WITHOUT the prefix
+      images[filename] = canvas.toDataURL('image/jpeg').split(',')[1];
+    });
+
+    // Call onReview with the correct payload!
     onReview &&
       onReview({
         imageBase64: image,
@@ -191,9 +208,11 @@ export const GradingCanvas = ({
         start_hold: `contour_${startHold}.jpg`,
         end_hold: `contour_${endHold}.jpg`,
         hold_points: holds,
-        images,
+        images, // <-- Correct base64 crops!
       });
   };
+};
+
 
   const stepInstructions = [
     "Click to set the left and then right wall boundaries.",
